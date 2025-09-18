@@ -1,0 +1,41 @@
+/* Custom styles for SmartEd Africa */
+
+/* Navbar logo */
+.navbar-logo {
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+/* Navbar tagline */
+.navbar-tagline {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Hero container (example with max width) */
+.hero-container {
+  max-width: 640px;
+}
+
+/* signup page custom styles */
+
+.signup-container {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* login page custom styles */
+.login-container {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* .grayscale-hover */
+
+.grayscale-hover {
+  filter: grayscale(100%);
+  transition: 0.3s;
+}
+.grayscale-hover:hover {
+  filter: grayscale(0%);
+}

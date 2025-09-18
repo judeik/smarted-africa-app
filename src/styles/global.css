@@ -1,0 +1,118 @@
+/* src/styles/global.css
+   Mobile-first global styles
+   - Layout optimized for small widths (down to 200px)
+   - High-contrast focus outlines for keyboard users
+   - Typography scale and responsive utilities
+*/
+
+/* Base */
+:root {
+  --brand: #0d6efd; /* primary blue (Bootstrap) */
+  --brand-2: #168f3e; /* green accent for SmartEd brand */
+  --text: #111827;
+  --muted: #6b7280;
+  --max-width: 1100px;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --base-font-size: 16px;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--base-font-size);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fff;
+  line-height: 1.45;
+}
+
+/* Container utilities */
+.container {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    max-width: var(--max-width);
+  }
+}
+
+/* Accessibility: visible focus */
+:focus {
+  outline: 3px solid rgba(13, 110, 253, 0.25);
+  outline-offset: 2px;
+}
+
+/* Header / hero small styles */
+.hero {
+  padding: 2rem 0;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 1.4rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.1;
+}
+@media (min-width: 768px) {
+  .hero h1 {
+    font-size: 2.25rem;
+  }
+}
+
+/* Card */
+.card {
+  border-radius: 0.5rem;
+}
+
+/* Buttons - prefer Bootstrap but add micro tweaks for mobile */
+.btn-primary {
+  background: var(--brand-2);
+  border-color: var(--brand-2);
+}
+.btn:focus {
+  box-shadow: none;
+}
+
+/* Footer */
+.site-footer {
+  padding: 1.25rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Utility for visually-hidden (screen readers) */
+.sr-only {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
