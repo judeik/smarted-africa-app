@@ -1,94 +1,110 @@
 /**
  * src/components/Navbar.tsx
- * Accessible, mobile-first navigation bar.
- * - Collapsible on small screens using Bootstrap classes
- * - Dashboard link hidden unless user is authenticated
+ * Responsive, sticky navbar with smooth scrolling and full section links
  */
 
 import logo from "@assets/images/logo.png";
 import "@assets/styles/custom.css";
 import { APP_NAME, APP_TAGLINE } from "@constants/app";
-import { useAuth } from "@context/useAuth"; // ✅ updated import
-import React from "react";
+import { useAuth } from "@context/useAuth";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar(): React.ReactElement {
-  const { isAuthenticated } = useAuth(); // ✅ get auth state
+  const { isAuthenticated } = useAuth();
   const loc = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleHomeClick = () => {
+    if (loc.pathname === "/") {
+      const el = document.getElementById("hero");
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // Navigate to home page and scroll to hero
+      window.location.href = "/#home";
+    }
+    setIsOpen(false);
+  };
+
+  const handleSectionClick = (id: string) => {
+    if (loc.pathname === "/") {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.location.href = `/#${id}`;
+    }
+    setIsOpen(false);
+  };
 
   return (
-    <header aria-label="Primary" className="bg-white border-bottom">
+    <header className="bg-white border-bottom sticky-top">
       <div className="container d-flex align-items-center justify-content-between py-2">
-        <Link
-          to="/"
-          className="d-flex align-items-center text-decoration-none"
-          aria-label={`${APP_NAME} home`}
-        >
-          <img
-            src={logo}
-            width={40}
-            height={40}
-            className="navbar-logo"
-            alt={`${APP_NAME} logo`}
-          />
-          <div>
+        {/* Logo & Title */}
+        <Link to="/" className="d-flex align-items-center text-decoration-none" aria-label={`${APP_NAME} home`}>
+          <img src={logo} width={40} height={40} className="navbar-logo" alt={`${APP_NAME} logo`} />
+          <div className="ms-2 d-none d-md-block">
             <div className="navbar-title">{APP_NAME}</div>
             <div className="navbar-tagline">{APP_TAGLINE}</div>
           </div>
         </Link>
 
-        <nav aria-label="Main navigation">
-          <ul className="d-flex gap-2 list-unstyled mb-0 align-items-center">
-            <li>
+        {/* Hamburger for mobile */}
+        <button
+          className="navbar-toggler d-md-none btn btn-outline-secondary"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Nav links */}
+        <nav className={`d-md-flex flex-column flex-md-row align-items-center gap-2 ${isOpen ? "d-flex" : "d-none d-md-flex"}`}>
+          <button className="btn btn-sm btn-link text-dark" onClick={handleHomeClick}>
+            Home
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("about")}>
+            About
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("features")}>
+            Features
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("donation")}>
+            Donate
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("contact")}>
+            Contact
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("impact")}>
+            Our Impact
+          </button>
+
+          {/* Auth links */}
+          {isAuthenticated ? (
+            <Link
+              to="/dashboard"
+              className={`btn btn-sm btn-success ms-md-2`}
+              onClick={() => setIsOpen(false)}
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
               <Link
-                className={`btn btn-sm ${
-                  loc.pathname === "/" ? "btn-outline-primary" : "btn-link"
-                }`}
-                to="/"
+                to="/login"
+                className={`btn btn-sm btn-outline-primary ms-md-2`}
+                onClick={() => setIsOpen(false)}
               >
-                Home
+                Log in
               </Link>
-            </li>
-
-            {/* ✅ Show dashboard link only if logged in */}
-            {isAuthenticated && (
-              <li>
-                <Link
-                  className={`btn btn-sm ${
-                    loc.pathname === "/dashboard"
-                      ? "btn-outline-primary"
-                      : "btn-link"
-                  }`}
-                  to="/dashboard"
-                >
-                  Dashboard
-                </Link>
-              </li>
-            )}
-
-            {/* ✅ Show login/signup only if not logged in */}
-            {!isAuthenticated && (
-              <>
-                <li>
-                  <Link
-                    className={`btn btn-sm ${
-                      loc.pathname === "/login"
-                        ? "btn-primary"
-                        : "btn-outline-primary"
-                    }`}
-                    to="/login"
-                  >
-                    Log in
-                  </Link>
-                </li>
-                <li>
-                  <Link className="btn btn-sm btn-success" to="/signup">
-                    Sign up
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
+              <Link
+                to="/signup"
+                className="btn btn-sm btn-success ms-md-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Sign up
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>
