@@ -1,41 +1,161 @@
-/* Custom styles for SmartEd Africa */
+/* ============================
+   Custom Styles for SmartEd Africa
+   ============================ */
 
-/* Navbar logo */
+/* ========== Navbar ========== */
 .navbar-logo {
   border-radius: 6px;
   margin-right: 10px;
+  max-height: 40px;
 }
 
-/* Navbar tagline */
 .navbar-tagline {
   font-size: 12px;
-  color: #6b7280;
+  color: #6b7280; /* Tailwind gray-500 */
+  display: none;
 }
 
-/* Hero container (example with max width) */
+@media (min-width: 640px) {
+  .navbar-tagline {
+    display: inline-block;
+    margin-left: 6px;
+  }
+}
+
+/* ========== Hero Section ========== */
 .hero-container {
   max-width: 640px;
-}
-
-/* signup page custom styles */
-
-.signup-container {
-  max-width: 640px;
   margin: 0 auto;
+  padding: 1rem;
+  text-align: center;
 }
 
-/* login page custom styles */
+/* ========== Form Containers ========== */
+.signup-container,
+.login-container,
+.form-container {
+  max-width: 640px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Reduce max-width slightly for login */
 .login-container {
   max-width: 520px;
-  margin: 0 auto;
 }
 
-/* .grayscale-hover */
+/* ========== Form Elements ========== */
+.form-container h2,
+.signup-container h2,
+.login-container h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #111827; /* Tailwind gray-900 */
+}
 
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #374151; /* Tailwind gray-700 */
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid #d1d5db; /* Tailwind gray-300 */
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-input:focus {
+  border-color: #2563eb; /* Tailwind blue-600 */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+.form-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #2563eb; /* Tailwind blue-600 */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.form-button:hover {
+  background-color: #1d4ed8; /* Tailwind blue-700 */
+}
+
+.form-button:disabled {
+  background-color: #9ca3af; /* Tailwind gray-400 */
+  cursor: not-allowed;
+}
+
+/* ========== Links & Helpers ========== */
+.form-link {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.form-link:hover {
+  text-decoration: underline;
+}
+
+/* ========== Effects ========== */
 .grayscale-hover {
   filter: grayscale(100%);
   transition: 0.3s;
 }
 .grayscale-hover:hover {
   filter: grayscale(0%);
+}
+
+/* ========== Responsiveness ========== */
+@media (max-width: 480px) {
+  .signup-container,
+  .login-container,
+  .form-container {
+    padding: 1.25rem;
+    margin: 1rem;
+  }
+
+  .form-button {
+    padding: 0.65rem;
+    font-size: 0.95rem;
+  }
+}
+
+
+/* Skip to content link for accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #166534; /* dark green */
+  color: white;
+  padding: 8px 16px;
+  z-index: 100;
+  transition: top 0.3s;
+}
+.skip-to-content:focus {
+  top: 0;
 }
