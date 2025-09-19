@@ -1,34 +1,57 @@
-# Node
+# ===============================
+# Node & Package Managers
+# ===============================
 node_modules/
 dist/
 dist-ssr/
-*.local
-env.local
-.env.local
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log* 
+*.localvstore
+.pnp.*
+.pnp.json   
+
+vscode-test/
+.vscode
+vscode
+
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+npm-shrinkwrap.json
+npm-packages/
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log**
+pnpm-debug.log*
+*.log
 
-# Editor
-.vscode/*
-!.vscode/extensions.json
-
-# Env
+# ===============================
+# Environment Variables
+# (keep example files public)
+# ===============================
 .env
 .env.*
 !.env.example
 
-# Build
+# ===============================
+# Build & Cache
+# ===============================
 .cache/
 out/
+.next/
+.svelte-kit/
+*.tsbuildinfo
 
-# Misc
+# ===============================
+# Editors & OS files
+# ===============================
+.vscode/*
+!.vscode/extensions.json
+.idea/
 .DS_Store
 Thumbs.db
+
+# ===============================
+# Misc
+# ===============================
+coverage/
