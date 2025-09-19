@@ -397,7 +397,7 @@ export default function Landing(): React.ReactElement {
             {/* 🔹 Team Member 3 */}
             <div className="bg-white shadow-md rounded-lg p-6 text-center">
               <h3 className="font-semibold text-xl text-green-700">
-                Omolaja Mamu
+                Omolaja Mamun
               </h3>
               <p className="text-sm text-gray-600 mb-3">
                 Beginner Backend Dev | C#, HTML, CSS, MySQL, Python (basic)
@@ -411,7 +411,7 @@ export default function Landing(): React.ReactElement {
             {/* 🔹 Team Member 4 */}
             <div className="bg-white shadow-md rounded-lg p-6 text-center">
               <h3 className="font-semibold text-xl text-green-700">
-                Chinemeze Njioku
+                Chinemeze Njoku
               </h3>
               <p className="text-sm text-gray-600 mb-3">
                 Python Dev | Data Science (NumPy, Pandas, Matplotlib), ML/AI learner
@@ -455,7 +455,7 @@ export default function Landing(): React.ReactElement {
               </div>
             </div>
           </div>
-          <hr className="my-4 border-secondary" />
+          {/* <hr className="my-4 border-secondary" />
           <div className="d-flex justify-content-between align-items-center flex-column flex-md-row text-center text-md-start">
             <p className="mb-0">&copy; {new Date().getFullYear()} SmartEd Africa. All rights reserved.</p>
             <ul className="list-unstyled d-flex gap-3 mb-0 mt-2 mt-md-0">
@@ -463,7 +463,7 @@ export default function Landing(): React.ReactElement {
                 <li key={link}><a href="#" className="text-white text-decoration-none">{link}</a></li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
       </footer>
     </div>
