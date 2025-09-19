@@ -418,7 +418,7 @@ export default function Landing(): React.ReactElement {
               </p>
               <div className="space-x-4">
                 <a href="https://github.com/Chinemezee" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">GitHub</a>
-                <a href="https://www.linkedin.com/in/chinemeze-njoku-741051a8" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">LinkedIn</a>
+                <a href="https://www.linkedin.com/in/chinemeze-njoku-7401051a8" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">LinkedIn</a>
               </div>
             </div>
           </div>
