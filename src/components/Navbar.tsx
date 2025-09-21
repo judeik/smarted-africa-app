@@ -60,8 +60,8 @@ export default function Navbar(): React.ReactElement {
           {/* <span className="navbar-toggler-icon"></span> */}
 
         {/* Nav links */}
-        <nav className={`d-md-flex flex-column flex-md-row align-items-center gap-2 ${isOpen ? "d-flex nav-menu" : "d-none d-md-flex"}`}>
-          <FaTimes className="d-md-none text-2xl btn-outline-secondary" onClick={() => setIsOpen(!isOpen)}/>
+        <nav className={`d-md-flex flex-column flex-md-row align-items-center gap-6 ${isOpen ? "d-flex nav-menu" : "d-none d-md-flex"}`}>
+          <FaTimes className="d-md-none cursor-pointer text-lg btn-outline-secondary absolute right-8" onClick={() => setIsOpen(!isOpen)}/>
           <button className="btn btn-sm btn-link text-dark" onClick={handleHomeClick}>
             Home
           </button>
