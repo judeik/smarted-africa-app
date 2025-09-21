@@ -334,7 +334,7 @@ export default function Landing(): React.ReactElement {
       viewport={{ once: true }}
     >
       <div className="col-md-8">
-        <form className="row g-3 shadow-sm p-4 rounded-4 border border-light">
+        <form action="mailto:smartedafrica01@gmail.com" className="row g-3 shadow-sm p-4 rounded-4 border border-light">
           <div className="col-md-6">
             <input type="text" className="form-control form-control-lg" placeholder="Name" required />
           </div>
@@ -443,8 +443,8 @@ export default function Landing(): React.ReactElement {
             </div>
             <div className="col-md-3">
               <h6 className="fw-bold">Contact Us</h6>
-              <p>Email: support@smarted.africa</p>
-              <p>Phone: +234 800 000 0000</p>
+              <p>Email: smartedafrica01@gmail.com</p>
+              <p>Phone: +234 861 599 9859</p>
             </div>
             <div className="col-md-3">
               <h6 className="fw-bold">Follow Us</h6>

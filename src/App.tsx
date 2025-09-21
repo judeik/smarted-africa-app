@@ -14,10 +14,12 @@ import Footer from "@components/Footer";
 import Navbar from "@components/Navbar";
 import SkipToContent from "@components/SkipToContent";
 import Dashboard from "@pages/Dashboard";
+import Investors from "@pages/Investors"; // import your new page
 import Landing from "@pages/Landing";
 import Login from "@pages/Login";
 import NotFound from "@pages/NotFound";
 import Signup from "@pages/Signup";
+
 
 export default function App(): React.ReactElement {
   return (
@@ -32,6 +34,7 @@ export default function App(): React.ReactElement {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/investors" element={<Investors />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
