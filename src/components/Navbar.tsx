@@ -3,12 +3,13 @@
  * Responsive, sticky navbar with smooth scrolling and full section links
  */
 
-import logo from "@assets/images/logo.png";
+import logo from "@assets/images/Logo_2.png";
 import "@assets/styles/custom.css";
 import { APP_NAME, APP_TAGLINE } from "@constants/app";
 import { useAuth } from "@context/useAuth";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import  {FaBars, FaTimes} from 'react-icons/fa'
 
 export default function Navbar(): React.ReactElement {
   const { isAuthenticated } = useAuth();
@@ -49,18 +50,18 @@ export default function Navbar(): React.ReactElement {
         </Link>
 
         {/* Hamburger for mobile */}
-        <button
-          className="navbar-toggler d-md-none btn btn-outline-secondary"
+        <FaBars
+          className={`navbar-toggler d-md-none btn btn-outline-secondary ${!isOpen ? "d-flex" : "d-none"}`}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           title="Toggle navigation menu"
           aria-label="Toggle navigation menu"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        />
+          {/* <span className="navbar-toggler-icon"></span> */}
 
         {/* Nav links */}
-        <nav className={`d-md-flex flex-column flex-md-row align-items-center gap-2 ${isOpen ? "d-flex" : "d-none d-md-flex"}`}>
+        <nav className={`d-md-flex flex-column flex-md-row align-items-center gap-6 ${isOpen ? "d-flex nav-menu" : "d-none d-md-flex"}`}>
+          <FaTimes className="d-md-none cursor-pointer text-lg btn-outline-secondary absolute right-8" onClick={() => setIsOpen(!isOpen)}/>
           <button className="btn btn-sm btn-link text-dark" onClick={handleHomeClick}>
             Home
           </button>
