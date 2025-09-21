@@ -17,7 +17,7 @@
     "isolatedModules": true,
     "noEmit": true,
 
-    "types": ["vite/client", "react", "react-dom"],
+    "types": ["vite/client", "react", "react-dom", "vitest/globals"],
 
     "baseUrl": ".",
     "paths": {

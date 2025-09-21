@@ -6,7 +6,7 @@ dist/
 dist-ssr/
 *.localvstore
 .pnp.*
-.pnp.json   
+.pnp.json
 
 vscode-test/
 .vscode
@@ -17,6 +17,14 @@ yarn.lock
 pnpm-lock.yaml
 npm-shrinkwrap.json
 npm-packages/
+
+# Vitest / coverage reports
+coverage/
+coverage-*.json
+coverage-*.lcov
+coverage-*.html
+coverage-*.info
+coverage-*.txt
 
 # Logs
 npm-debug.log*
