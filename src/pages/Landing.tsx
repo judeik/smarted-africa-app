@@ -7,11 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { motion } from "framer-motion";
 import React, { useEffect } from "react";
-<<<<<<< HEAD
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-=======
 import { Helmet } from "react-helmet-async";
->>>>>>> 6a3e11f7278cd3b259b2c9545eb4e430880c98b1
 import { Link } from "react-router-dom";
 import schemaData from "../../public/schema.json"; // import your JSON file
 
