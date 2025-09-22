@@ -7,8 +7,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { motion } from "framer-motion";
 import React, { useEffect } from "react";
+<<<<<<< HEAD
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+=======
+import { Helmet } from "react-helmet-async";
+>>>>>>> 6a3e11f7278cd3b259b2c9545eb4e430880c98b1
 import { Link } from "react-router-dom";
+import schemaData from "../../public/schema.json"; // import your JSON file
 
 export default function Landing(): React.ReactElement {
   useEffect(() => {
@@ -17,6 +22,14 @@ export default function Landing(): React.ReactElement {
 
   return (
     <div className="bg-light text-dark">
+
+       {/* ✅ Helmet with JSON-LD */}
+        <Helmet>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+          />
+        </Helmet>
 
       {/* Hero Section */}
       <section id="hero" className="mt-5 py-5 text-center bg-success text-white section-padd">
