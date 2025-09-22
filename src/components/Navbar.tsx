@@ -10,11 +10,14 @@ import { useAuth } from "@context/useAuth";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import  {FaBars, FaTimes} from 'react-icons/fa'
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Navbar(): React.ReactElement {
   const { isAuthenticated } = useAuth();
   const loc = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+
+  const open = () => setIsOpen(!isOpen);
 
   const handleHomeClick = () => {
     if (loc.pathname === "/") {
@@ -37,8 +40,22 @@ export default function Navbar(): React.ReactElement {
     setIsOpen(false);
   };
 
+  const navAnimation = {
+    hidden: {
+      opacity: 0, x: "100vw"
+    },
+    visible: {
+      opacity: 1, x: 0,
+      transition: {delay: 0, duration: 0.4}
+    },
+    remove: {
+      opacity: 0, x: "100vw",
+      transition: {delay: 0.1, duration: 0.4}
+    }
+  }
+
   return (
-    <header className="bg-white border-bottom sticky-top">
+    <header className="bg-white border-bottom fixed-top">
       <div className="container d-flex align-items-center justify-content-between py-2">
         {/* Logo & Title */}
         <Link to="/" className="d-flex align-items-center text-decoration-none" aria-label={`${APP_NAME} home`}>
@@ -50,17 +67,73 @@ export default function Navbar(): React.ReactElement {
         </Link>
 
         {/* Hamburger for mobile */}
-        <FaBars
-          className={`navbar-toggler d-md-none btn btn-outline-secondary ${!isOpen ? "d-flex" : "d-none"}`}
-          type="button"
-          onClick={() => setIsOpen(!isOpen)}
-          title="Toggle navigation menu"
-          aria-label="Toggle navigation menu"
-        />
-          {/* <span className="navbar-toggler-icon"></span> */}
+        {!isOpen && (
+          <FaBars
+          className="d-md-none d-flex text-xl cursor-pointer" onClick={open} title="Toggle navigation menu"
+          />)
+        }
+
+        <AnimatePresence>
+        {isOpen && (
+          <motion.nav 
+            variants={navAnimation}
+            initial= "hidden"
+            animate="visible"
+            exit= "remove"
+          className="flex-column align-items-center d-md-none d-flex nav-menu gap-4">
+          <FaTimes className="d-md-none cursor-pointer text-xl absolute right-5" onClick={open}/>
+          <button className="btn btn-sm btn-link text-dark mt-5" onClick={handleHomeClick}>
+            Home
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("about")}>
+            About
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("features")}>
+            Features
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("donation")}>
+            Donate
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("contact")}>
+            Contact
+          </button>
+          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("impact")}>
+            Our Impact
+          </button>
+
+          {/* Auth links */}
+          {isAuthenticated ? (
+            <Link
+              to="/dashboard"
+              className={`btn btn-sm btn-success ms-md-2`}
+              onClick={() => setIsOpen(false)}
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className={`btn btn-sm btn-outline-primary ms-md-2`}
+                onClick={() => setIsOpen(false)}
+              >
+                Log in
+              </Link>
+              <Link
+                to="/signup"
+                className="btn btn-sm btn-success ms-md-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Sign up
+              </Link>
+            </>
+          )}
+        </motion.nav>
+        )}
+        </AnimatePresence>
 
         {/* Nav links */}
-        <nav className={`d-md-flex flex-column flex-md-row align-items-center gap-6 ${isOpen ? "d-flex nav-menu" : "d-none d-md-flex"}`}>
+        <nav className="d-md-flex flex-column flex-md-row align-items-center lg:gap-6 d-none ords-nav">
           <FaTimes className="d-md-none cursor-pointer text-lg btn-outline-secondary absolute right-8" onClick={() => setIsOpen(!isOpen)}/>
           <button className="btn btn-sm btn-link text-dark" onClick={handleHomeClick}>
             Home

@@ -8,7 +8,7 @@ import React from "react";
 
 export default function Dashboard(): React.ReactElement {
   return (
-    <div className="container py-4">
+    <div className="container py-4 mt-5">
       <h2>Dashboard</h2>
       <p className="text-muted">
         This is a placeholder dashboard. Replace with role-based components (student/teacher/admin).

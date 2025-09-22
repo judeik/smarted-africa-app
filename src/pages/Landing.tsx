@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import { motion } from "framer-motion";
 import React, { useEffect } from "react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function Landing(): React.ReactElement {
@@ -18,7 +19,7 @@ export default function Landing(): React.ReactElement {
     <div className="bg-light text-dark">
 
       {/* Hero Section */}
-      <section id="hero" className="py-5 text-center bg-success text-white">
+      <section id="hero" className="mt-5 py-5 text-center bg-success text-white section-padd">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -41,7 +42,7 @@ export default function Landing(): React.ReactElement {
       </section>
 
 {/* Target Audience */}
-<section id="audience" className="py-5 bg-white text-center">
+<section id="audience" className="py-5 bg-white text-center section-padd">
   <div className="container">
     <h2 className="fw-bold mb-5">Who We Serve</h2>
     <div className="row g-4">
@@ -74,7 +75,7 @@ export default function Landing(): React.ReactElement {
 </section>
 
       {/* Features */}
-      <section id="features" className="py-5 bg-white">
+      <section id="features" className="py-5 bg-white section-padd">
         <div className="container">
           <h2 className="text-center mb-5 fw-bold">Why Choose SmartEd?</h2>
           <div className="row g-4">
@@ -126,7 +127,7 @@ export default function Landing(): React.ReactElement {
       </section>
 
 {/* Why Our System Works */}
-<section id="why-works" className="py-5 bg-light">
+<section id="why-works" className="py-5 bg-light section-padd">
   <div className="container">
     <h2 className="fw-bold text-center mb-5">Why Our System Works</h2>
     <div className="row g-4 text-center">
@@ -155,7 +156,7 @@ export default function Landing(): React.ReactElement {
 </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-5 bg-light">
+      <section id="testimonials" className="py-5 bg-light section-padd">
         <div className="container text-center">
           <h2 className="fw-bold mb-5">What Our Students Say</h2>
           <div className="row g-4">
@@ -179,7 +180,7 @@ export default function Landing(): React.ReactElement {
       </section>
 
       {/* Newsletter */}
-      <section id="newsletter"  className="py-5 bg-success text-white text-center">
+      <section id="newsletter"  className="py-5 bg-success text-white text-center section-padd">
         <div className="container">
           <h2 className="fw-bold mb-3">Stay Updated</h2>
           <p className="mb-4">Get SmartEd news, free resources, and education updates in your inbox.</p>
@@ -195,7 +196,7 @@ export default function Landing(): React.ReactElement {
       </section>
 
       {/* Latest News */}
-      <section id="news" className="py-5 bg-white">
+      <section id="news" className="py-5 bg-white section-padd">
         <div className="container">
           <h2 className="fw-bold text-center mb-5">Latest News</h2>
           <div className="row g-4">
@@ -220,7 +221,7 @@ export default function Landing(): React.ReactElement {
       </section>
 
       {/* Partners / Logos */}
-      <section id="partners" className="py-5 bg-light">
+      <section id="partners" className="py-5 bg-light section-padd">
         <div className="container text-center">
           <h2 className="fw-bold mb-4">Trusted by Partners</h2>
           <p className="mb-5">SmartEd Africa collaborates with schools, NGOs, and education innovators.</p>
@@ -240,7 +241,7 @@ export default function Landing(): React.ReactElement {
       </section>
 
       {/* Impact Carousel */}
-      <section id="highlights" className="py-5 bg-white">
+      <section id="highlights" className="py-5 bg-white section-padd">
         <div className="container">
           <motion.h2 className="fw-bold text-center mb-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
             Our Impact
@@ -290,7 +291,7 @@ export default function Landing(): React.ReactElement {
       </section>
 
       {/* Donation Section */}
-      <section id="donation" className="py-5" style={{ background: "linear-gradient(90deg, #28a745 0%, #218838 100%)" }}>
+      <section id="donation" className="py-5 section-padd" style={{ background: "linear-gradient(90deg, #28a745 0%, #218838 100%)" }}>
         <div className="container text-center text-white">
           <motion.h2 className="fw-bold mb-3" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>Support SmartEd Africa</motion.h2>
           <motion.p className="mb-5 lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 0.7 }}>Help us provide quality education across Africa. Every donation counts!</motion.p>
@@ -323,7 +324,7 @@ export default function Landing(): React.ReactElement {
         </div>
       </section>
 {/* Contact Us */}
-<section id="contact" className="py-5 bg-white">
+<section id="contact" className="py-5 bg-white section-padd">
   <div className="container">
     <h2 className="fw-bold text-center mb-5">Contact Us</h2>
     <motion.div
@@ -358,7 +359,7 @@ export default function Landing(): React.ReactElement {
 
 
       {/* 🔹 About Us Section */}
-      <section id="about" className="py-16 bg-gray-50">
+      <section id="about" className="py-16 bg-gray-50 section-padd">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-green-700 mb-10">
             Meet Our Team
@@ -375,22 +376,22 @@ export default function Landing(): React.ReactElement {
                 Full-Stack Dev | React, TS, PHP, Node.js, MySQL, MongoDB, Python (beginner)
               </p>
               <div className="space-x-4">
-                <a href="https://github.com/judeik" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">GitHub</a>
-                <a href="https://www.linkedin.com/in/ojobor-jude-ik-292b9612b/" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">LinkedIn</a>
+                <a href="https://github.com/judeik" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaGithub className="mr-1"/>GitHub</a>
+                <a href="https://www.linkedin.com/in/ojobor-jude-ik-292b9612b/" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaLinkedin className="mr-1"/>LinkedIn</a>
               </div>
             </div>
 
             {/* 🔹 Team Member 2 */}
             <div className="bg-white shadow-md rounded-lg p-6 text-center">
               <h3 className="font-semibold text-xl text-green-700">
-                David
+                Akpom David
               </h3>
               <p className="text-sm text-gray-600 mb-3">
-                Frontend Dev | JavaScript, React
+                Frontend Dev | CSS, JavaScript, React, TypeScript
               </p>
               <div className="space-x-4">
-                <a href="https://github.com/Dahvid16" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">GitHub</a>
-                <a href="https://www.linkedin.com/in/davidakpom" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">LinkedIn</a>
+                <a href="https://github.com/Dahvid16" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaGithub className="mr-1"/>GitHub</a>
+                <a href="https://www.linkedin.com/in/davidakpom" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaLinkedin className="mr-1"/>LinkedIn</a>
               </div>
             </div>
 
@@ -403,8 +404,8 @@ export default function Landing(): React.ReactElement {
                 Beginner Backend Dev | C#, HTML, CSS, MySQL, Python (basic)
               </p>
               <div className="space-x-4">
-                <a href="https://github.com/Omolaja2" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">GitHub</a>
-                <a href="https://www.linkedin.com/in/omolaja-mamun-49b98634b" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">LinkedIn</a>
+                <a href="https://github.com/Omolaja2" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaGithub className="mr-1"/>GitHub</a>
+                <a href="https://www.linkedin.com/in/omolaja-mamun-49b98634b" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaLinkedin className="mr-1"/>LinkedIn</a>
               </div>
             </div>
 
@@ -417,8 +418,8 @@ export default function Landing(): React.ReactElement {
                 Python Dev | Data Science (NumPy, Pandas, Matplotlib), ML/AI learner
               </p>
               <div className="space-x-4">
-                <a href="https://github.com/Chinemezee" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">GitHub</a>
-                <a href="https://www.linkedin.com/in/chinemeze-njoku-7401051a8" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">LinkedIn</a>
+                <a href="https://github.com/Chinemezee" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaGithub className="mr-1"/>GitHub</a>
+                <a href="https://www.linkedin.com/in/chinemeze-njoku-7401051a8" target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline inline-flex items-center"><FaLinkedin className="mr-1"/>LinkedIn</a>
               </div>
             </div>
           </div>

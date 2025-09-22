@@ -9,6 +9,7 @@
 
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../assets/styles/custom.css"; // external CSS for overrides
 
 // 🔹 Type for form state
@@ -43,7 +44,7 @@ export default function Login(): React.ReactElement {
   };
 
   return (
-    <div className="login-container py-4">
+    <div className="login-container mt-5 py-4">
       {/* 🔹 Page heading */}
       <h2 className="mb-2">Log in</h2>
       <p className="text-muted">
@@ -128,7 +129,7 @@ export default function Login(): React.ReactElement {
       {/* 🔹 Signup link */}
       <div className="mt-3 small">
         <p>
-          Don’t have an account? <a href="/signup">Sign up</a>
+          Don’t have an account? <Link to="/signup">Sign up</Link>
         </p>
       </div>
     </div>

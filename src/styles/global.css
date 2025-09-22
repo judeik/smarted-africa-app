@@ -42,6 +42,12 @@ body {
   margin-right: auto;
   box-sizing: border-box;
 }
+@media screen and (min-width: 768px) and (max-width: 99) {
+  .ords-nav {
+    display: flex;
+    gap: 5rem;
+  }
+}
 @media (min-width: 576px) {
   .container {
     max-width: 540px;
@@ -117,15 +123,18 @@ body {
   white-space: nowrap;
 }
 
+.section-padd {
+  scroll-margin-top: 3rem;
+}
+
 .nav-menu {
   position: absolute;
   top: 0;
   right: 0;
   height: 100vh;
-  width: 35%;
-  padding: 1rem 0 0;
+  width: 40%;
+  padding: 1.5rem 0 0;
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
