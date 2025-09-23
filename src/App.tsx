@@ -19,6 +19,8 @@ import Landing from "@pages/Landing";
 import Login from "@pages/Login";
 import NotFound from "@pages/NotFound";
 import Signup from "@pages/Signup";
+import ComingSoon from "./pages/ComingSoon";
+import ComingSoonInterceptor from "./ComingSoonInterceptor";
 
 
 export default function App(): React.ReactElement {
@@ -26,6 +28,7 @@ export default function App(): React.ReactElement {
     <>
       <SkipToContent />
       <Navbar />
+      <ComingSoonInterceptor/>
 
       {/* 🔹 Main landmark for accessibility */}
       <main id="main-content" tabIndex={-1} role="main">
@@ -34,6 +37,7 @@ export default function App(): React.ReactElement {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/coming" element={<ComingSoon />} />
           <Route path="/investors" element={<Investors />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

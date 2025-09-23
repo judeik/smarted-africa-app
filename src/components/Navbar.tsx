@@ -60,9 +60,9 @@ export default function Navbar(): React.ReactElement {
         {/* Logo & Title */}
         <Link to="/" className="d-flex align-items-center text-decoration-none" aria-label={`${APP_NAME} home`}>
           <img src={logo} width={40} height={40} className="navbar-logo" alt={`${APP_NAME} logo`} />
-          <div className="ms-2 d-none d-md-block">
+          <div className="ms-2 d-block">
             <div className="navbar-title">{APP_NAME}</div>
-            <div className="navbar-tagline">{APP_TAGLINE}</div>
+            <div className="text-black" style={{fontSize: "0.7rem"}}>{APP_TAGLINE}</div>
           </div>
         </Link>
 
@@ -134,7 +134,6 @@ export default function Navbar(): React.ReactElement {
 
         {/* Nav links */}
         <nav className="d-md-flex flex-column flex-md-row align-items-center lg:gap-6 d-none ords-nav">
-          <FaTimes className="d-md-none cursor-pointer text-lg btn-outline-secondary absolute right-8" onClick={() => setIsOpen(!isOpen)}/>
           <button className="btn btn-sm btn-link text-dark" onClick={handleHomeClick}>
             Home
           </button>
