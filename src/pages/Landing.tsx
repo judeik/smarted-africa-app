@@ -34,10 +34,10 @@ export default function Landing(): React.ReactElement {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="container"
+          className="container py-4"
         >
           <h1 className="display-4 fw-bold">SmartEd Africa</h1>
-          <p className="lead mb-4">
+          <p className="lead mb-5">
             AI-powered, offline-first learning for students, teachers, and communities across Africa.
           </p>
           <div className="d-flex justify-content-center gap-3 flex-wrap">
@@ -199,7 +199,7 @@ export default function Landing(): React.ReactElement {
               <input type="email" className="form-control form-control-lg" placeholder="Enter your email" required />
             </div>
             <div className="col-md-2">
-              <button type="submit" className="btn btn-light btn-lg w-100 text-success fw-semibold">Subscribe</button>
+              <input type="submit" value="Subscribe" className="btn btn-light btn-lg w-100 text-success fw-semibold" />
             </div>
           </form>
         </div>

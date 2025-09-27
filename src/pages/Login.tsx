@@ -44,9 +44,9 @@ export default function Login(): React.ReactElement {
   };
 
   return (
-    <div className="login-container mt-5 py-4">
+    <div className="login-container mt-5 py-5">
       {/* 🔹 Page heading */}
-      <h2 className="mb-2">Log in</h2>
+      <h2 className="mb-3">Log in</h2>
       <p className="text-muted">
         Use email/phone and password, or choose Magic Link for passwordless login.
       </p>
