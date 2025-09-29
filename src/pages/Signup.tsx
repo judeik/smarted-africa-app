@@ -53,7 +53,7 @@ export default function Signup(): React.ReactElement {
   };
 
   return (
-    <div className="signup-container mt-5 py-4">
+    <div className="signup-container mt-5 py-5">
       <h2>Create an account</h2>
       <p className="text-muted">
         Sign up with email or phone. We'll verify your contact info before full access.

@@ -82,22 +82,22 @@ export default function Navbar(): React.ReactElement {
             exit= "remove"
           className="flex-column align-items-center d-md-none d-flex nav-menu gap-4">
           <FaTimes className="d-md-none cursor-pointer text-xl absolute right-5" onClick={open}/>
-          <button className="btn btn-sm btn-link text-dark mt-5" onClick={handleHomeClick}>
+          <button className="btn btn-sm btn-link text-dark btn-hover mt-5" onClick={handleHomeClick}>
             Home
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("about")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("about")}>
             About
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("features")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("features")}>
             Features
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("donation")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("donation")}>
             Donate
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("contact")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("contact")}>
             Contact
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("impact")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("impact")}>
             Our Impact
           </button>
 
@@ -134,49 +134,46 @@ export default function Navbar(): React.ReactElement {
 
         {/* Nav links */}
         <nav className="d-md-flex flex-column flex-md-row align-items-center lg:gap-6 d-none ords-nav">
-          <button className="btn btn-sm btn-link text-dark" onClick={handleHomeClick}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={handleHomeClick}>
             Home
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("about")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("about")}>
             About
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("features")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("features")}>
             Features
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("donation")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("donation")}>
             Donate
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("contact")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("contact")}>
             Contact
           </button>
-          <button className="btn btn-sm btn-link text-dark" onClick={() => handleSectionClick("impact")}>
+          <button className="btn btn-sm btn-link text-dark btn-hover" onClick={() => handleSectionClick("impact")}>
             Our Impact
           </button>
 
           {/* Auth links */}
           {isAuthenticated ? (
-            <Link
-              to="/dashboard"
-              className={`btn btn-sm btn-success ms-md-2`}
-              onClick={() => setIsOpen(false)}
-            >
-              Dashboard
+            <Link to="/dashboard">
+              <button className={`btn btn-sm btn-success ms-md-2`}
+              onClick={() => setIsOpen(false)}>
+                Dashboard
+              </button>
             </Link>
           ) : (
             <>
-              <Link
-                to="/login"
-                className={`btn btn-sm btn-outline-primary ms-md-2`}
-                onClick={() => setIsOpen(false)}
-              >
-                Log in
+              <Link to="/login">
+                <button className="btn btn-sm btn-outline-primary ms-md-2"
+                onClick={() => setIsOpen(false)}>
+                  Log in
+                </button>
               </Link>
-              <Link
-                to="/signup"
-                className="btn btn-sm btn-success ms-md-2"
-                onClick={() => setIsOpen(false)}
-              >
-                Sign up
+              <Link to="/signup">
+                <button className="btn btn-sm btn-success ms-md-2"
+                onClick={() => setIsOpen(false)}>
+                  Sign up
+                </button>
               </Link>
             </>
           )}

@@ -138,3 +138,7 @@ body {
   backdrop-filter: blur(10px);
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.2);
 }
+
+.btn-hover:hover {
+  border: 1px solid black;
+}
