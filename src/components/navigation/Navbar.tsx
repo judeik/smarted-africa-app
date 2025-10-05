@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  GraduationCap, 
-  Menu, 
-  X 
+import {
+  GraduationCap,
+  Menu,
+  X
 } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 import { translations } from '../../utils/translations';
 
-interface NavbarProps {
-  currentLanguage: string;
-  onLanguageChange: (language: string) => void;
-  showAutoDetect: boolean;
-  onAuthClick: (type: 'login' | 'signup') => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ 
-  currentLanguage, 
-  onLanguageChange, 
+const Navbar = ({
+  currentLanguage,
+  onLanguageChange,
   showAutoDetect,
-  onAuthClick 
+  onAuthClick,
+  user,
+  onLogout,
+  currentPage,
+  onNavigate
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -31,6 +28,39 @@ const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (target) => {
+    // Handle section anchors (scroll to section on landing page)
+    if (['features', 'audience', 'testimonials', 'team', 'contact'].includes(target)) {
+      if (currentPage !== 'landing') {
+        onNavigate('landing');
+        setTimeout(() => {
+          const element = document.getElementById(target);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100);
+      } else {
+        const element = document.getElementById(target);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+      setIsMenuOpen(false);
+    }
+    // Handle page navigation
+    else if (['landing', 'courses', 'dashboard'].includes(target)) {
+      onNavigate(target);
+      setIsMenuOpen(false);
+    }
+  };
+
+  // Safe translation lookup for JavaScript
+  const getTranslation = (key, fallback) => {
+    return translations[currentLanguage] && translations[currentLanguage][key] 
+      ? translations[currentLanguage][key] 
+      : fallback;
+  };
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       scrolled ? 'bg-white shadow-md py-2' : 'bg-white/90 backdrop-blur-sm py-4'
@@ -40,44 +70,83 @@ const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
               <GraduationCap className="h-8 w-8 text-green-600" />
-              <span className="ml-2 text-xl font-bold text-green-600">SmartEd Africa</span>
+              <span 
+                className="ml-2 text-xl font-bold text-green-600 cursor-pointer"
+                onClick={() => handleNavClick('landing')}
+              >
+                SmartEd Africa
+              </span>
             </div>
           </div>
-          
+
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <a href="#features" className="text-gray-600 hover:text-green-600 font-medium transition-colors">
-              {translations[currentLanguage as keyof typeof translations]?.features || 'Features'}
-            </a>
-            <a href="#audience" className="text-gray-600 hover:text-green-600 font-medium transition-colors">
-              {translations[currentLanguage as keyof typeof translations]?.solutions || 'Solutions'}
-            </a>
-            <a href="#testimonials" className="text-gray-600 hover:text-green-600 font-medium transition-colors">
-              {translations[currentLanguage as keyof typeof translations]?.successStories || 'Success Stories'}
-            </a>
-            <a href="#team" className="text-gray-600 hover:text-green-600 font-medium transition-colors">
-              {translations[currentLanguage as keyof typeof translations]?.ourTeam || 'Our Team'}
-            </a>
-            <a href="#contact" className="text-gray-600 hover:text-green-600 font-medium transition-colors">
-              {translations[currentLanguage as keyof typeof translations]?.contact || 'Contact'}
-            </a>
-            <LanguageSelector 
-              currentLanguage={currentLanguage} 
+            <button 
+              onClick={() => handleNavClick('features')}
+              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
+            >
+              {getTranslation('features', 'Features')}
+            </button>
+            <button 
+              onClick={() => handleNavClick('audience')}
+              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
+            >
+              {getTranslation('solutions', 'Solutions')}
+            </button>
+            <button 
+              onClick={() => handleNavClick('testimonials')}
+              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
+            >
+              {getTranslation('successStories', 'Success Stories')}
+            </button>
+            <button 
+              onClick={() => handleNavClick('team')}
+              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
+            >
+              {getTranslation('ourTeam', 'Our Team')}
+            </button>
+            <button 
+              onClick={() => handleNavClick('courses')}
+              className="text-gray-600 hover:text-green-600 font-medium"
+            >
+              Courses
+            </button>
+            <button 
+              onClick={() => handleNavClick('contact')}
+              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
+            >
+              {getTranslation('contact', 'Contact')}
+            </button>
+            <LanguageSelector
+              currentLanguage={currentLanguage}
               onLanguageChange={onLanguageChange}
               showAutoDetect={showAutoDetect}
             />
-            <button 
-              onClick={() => onAuthClick('login')}
-              className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-2 rounded-full font-medium hover:from-green-700 hover:to-teal-700 transition-all shadow-lg hover:shadow-xl"
-            >
-              {translations[currentLanguage as keyof typeof translations]?.login || 'Login'}
-            </button>
+            
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-700 text-sm">Hi, {user.name.split(' ')[0]}</span>
+                <button
+                  onClick={onLogout}
+                  className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full font-medium hover:from-red-600 hover:to-orange-600 transition-all text-sm"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => onAuthClick('login')}
+                className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-2 rounded-full font-medium hover:from-green-700 hover:to-teal-700 transition-all shadow-lg hover:shadow-xl"
+              >
+                {getTranslation('login', 'Login')}
+              </button>
+            )}
           </div>
-          
+
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-4">
-            <LanguageSelector 
-              currentLanguage={currentLanguage} 
+            <LanguageSelector
+              currentLanguage={currentLanguage}
               onLanguageChange={onLanguageChange}
               showAutoDetect={showAutoDetect}
             />
@@ -89,46 +158,79 @@ const Navbar: React.FC<NavbarProps> = ({
             </button>
           </div>
         </div>
-        
+
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
             <div className="flex flex-col space-y-4">
-              <a href="#features" className="text-gray-600 hover:text-green-600 font-medium py-2" onClick={() => setIsMenuOpen(false)}>
-                {translations[currentLanguage as keyof typeof translations]?.features || 'Features'}
-              </a>
-              <a href="#audience" className="text-gray-600 hover:text-green-600 font-medium py-2" onClick={() => setIsMenuOpen(false)}>
-                {translations[currentLanguage as keyof typeof translations]?.solutions || 'Solutions'}
-              </a>
-              <a href="#testimonials" className="text-gray-600 hover:text-green-600 font-medium py-2" onClick={() => setIsMenuOpen(false)}>
-                {translations[currentLanguage as keyof typeof translations]?.successStories || 'Success Stories'}
-              </a>
-              <a href="#team" className="text-gray-600 hover:text-green-600 font-medium py-2" onClick={() => setIsMenuOpen(false)}>
-                {translations[currentLanguage as keyof typeof translations]?.ourTeam || 'Our Team'}
-              </a>
-              <a href="#contact" className="text-gray-600 hover:text-green-600 font-medium py-2" onClick={() => setIsMenuOpen(false)}>
-                {translations[currentLanguage as keyof typeof translations]?.contact || 'Contact'}
-              </a>
-              <div className="flex space-x-3">
-                <button 
-                  onClick={() => {
-                    onAuthClick('login');
-                    setIsMenuOpen(false);
-                  }}
-                  className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-4 py-2 rounded-full font-medium hover:from-green-700 hover:to-teal-700 transition-all shadow-lg"
-                >
-                  {translations[currentLanguage as keyof typeof translations]?.login || 'Login'}
-                </button>
-                <button 
-                  onClick={() => {
-                    onAuthClick('signup');
-                    setIsMenuOpen(false);
-                  }}
-                  className="border-2 border-green-600 text-green-600 px-4 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
-                >
-                  {translations[currentLanguage as keyof typeof translations]?.signup || 'Sign Up'}
-                </button>
-              </div>
+              <button 
+                onClick={() => handleNavClick('features')}
+                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
+              >
+                {getTranslation('features', 'Features')}
+              </button>
+              <button 
+                onClick={() => handleNavClick('audience')}
+                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
+              >
+                {getTranslation('solutions', 'Solutions')}
+              </button>
+              <button 
+                onClick={() => handleNavClick('testimonials')}
+                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
+              >
+                {getTranslation('successStories', 'Success Stories')}
+              </button>
+              <button 
+                onClick={() => handleNavClick('team')}
+                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
+              >
+                {getTranslation('ourTeam', 'Our Team')}
+              </button>
+              <button 
+                onClick={() => handleNavClick('courses')}
+                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
+              >
+                Courses
+              </button>
+              <button 
+                onClick={() => handleNavClick('contact')}
+                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
+              >
+                {getTranslation('contact', 'Contact')}
+              </button>
+              
+              {user ? (
+                <div className="pt-4">
+                  <button
+                    onClick={onLogout}
+                    className="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full font-medium hover:from-red-600 hover:to-orange-600 transition-all"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col space-y-3 pt-4">
+                  <button
+                    onClick={() => {
+                      onAuthClick('login');
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white px-4 py-2 rounded-full font-medium hover:from-green-700 hover:to-teal-700 transition-all shadow-lg"
+                  >
+                    {getTranslation('login', 'Login')}
+                  </button>
+                  <button
+                    onClick={() => {
+                      onAuthClick('signup');
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full border-2 border-green-600 text-green-600 px-4 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
+                  >
+                    {getTranslation('signup', 'Sign Up')}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         )}
