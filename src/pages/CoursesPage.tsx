@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Star,
   BookOpen,
   User,
   Clock,
   ChevronDown,
-  ChevronUp,
-  ShoppingCart,
-  CheckCircle
+  ChevronUp
 } from 'lucide-react';
 import { translations } from '../utils/translations';
 
@@ -19,11 +17,11 @@ interface Review {
   date: string;
 }
 
-interface Course {
+export interface Course {
   id: string;
   title: string;
   instructor: string;
-  basePrice: number; // in NGN
+  basePrice: number;
   description: string;
   shortDescription: string;
   image: string;
@@ -34,16 +32,17 @@ interface Course {
   reviews: Review[];
 }
 
-const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage }) => {
+interface CoursesPageProps {
+  currentLanguage: string;
+  onSubscribe: (course: Course) => void;
+}
+
+const CoursesPage: React.FC<CoursesPageProps> = ({ currentLanguage, onSubscribe }) => {
   const [expandedCourse, setExpandedCourse] = useState<string | null>(null);
-  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
-  const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
-  const [subscriptionDuration, setSubscriptionDuration] = useState<'monthly' | 'quarterly' | 'yearly'>('monthly');
-  const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewCourseId, setReviewCourseId] = useState<string | null>(null);
+  const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
 
-  // Mock course data (ready for API integration)
   const courses: Course[] = [
     {
       id: 'waec-maths',
@@ -64,13 +63,6 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
           rating: 5,
           comment: 'Scored A1 in WAEC Maths! The offline practice tests were exactly like the real exam.',
           date: '2024-03-15'
-        },
-        {
-          id: 'r2',
-          name: 'Tunde A.',
-          rating: 4,
-          comment: 'Great content, but I wish there were more Igbo translations.',
-          date: '2024-02-28'
         }
       ]
     },
@@ -120,23 +112,10 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
     }
   ];
 
-  const VAT_RATE = 0.075; // 7.5% VAT
+  const VAT_RATE = 0.075;
 
   const calculateTotalPrice = (basePrice: number): number => {
     return basePrice * (1 + VAT_RATE);
-  };
-
-  const getDurationMultiplier = (): number => {
-    switch (subscriptionDuration) {
-      case 'quarterly': return 2.7; // 10% discount
-      case 'yearly': return 10;   // 16.7% discount per month
-      default: return 1;
-    }
-  };
-
-  const handleSubscribe = (course: Course) => {
-    setSelectedCourse(course);
-    setIsSubscribeModalOpen(true);
   };
 
   const handleWriteReview = (courseId: string) => {
@@ -145,8 +124,7 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
   };
 
   const submitReview = () => {
-    // In real app: POST to API
-    alert('Thank you for your review! (In production, this would be saved to the database)');
+    alert('Thank you for your review!');
     setIsReviewModalOpen(false);
     setNewReview({ rating: 5, comment: '' });
   };
@@ -248,7 +226,7 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
 
                   <div className="flex space-x-3">
                     <button
-                      onClick={() => handleSubscribe(course)}
+                      onClick={() => onSubscribe(course)}
                       className="flex-1 bg-gradient-to-r from-green-600 to-teal-600 text-white py-2 px-4 rounded-lg font-medium hover:from-green-700 hover:to-teal-700 transition-all"
                     >
                       Subscribe
@@ -256,7 +234,6 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
                     <button
                       onClick={() => handleWriteReview(course.id)}
                       className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                      aria-label="Write a review"
                     >
                       <Star className="w-5 h-5 text-yellow-400" />
                     </button>
@@ -268,7 +245,7 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
         </div>
       </section>
 
-      {/* Reviews Section (below courses) */}
+      {/* Reviews Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -286,7 +263,7 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
                   <p className="text-gray-700 mt-2 italic">"{review.comment}"</p>
                   <div className="mt-3 flex items-center text-sm text-gray-600">
                     <BookOpen className="w-4 h-4 mr-1" />
-                    <span>{courses.find(c => c.reviews.includes(review))?.title}</span>
+                    <span>{course.title}</span>
                   </div>
                 </div>
               ))
@@ -295,79 +272,13 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
         </div>
       </section>
 
-      {/* Subscription Modal */}
-      {isSubscribeModalOpen && selectedCourse && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Subscribe to {selectedCourse.title}</h2>
-              <button
-                onClick={() => setIsSubscribeModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="mb-6">
-              <h3 className="font-medium text-gray-900 mb-3">Choose Duration</h3>
-              <div className="space-y-2">
-                {(['monthly', 'quarterly', 'yearly'] as const).map((duration) => (
-                  <label key={duration} className="flex items-center">
-                    <input
-                      type="radio"
-                      name="duration"
-                      checked={subscriptionDuration === duration}
-                      onChange={() => setSubscriptionDuration(duration)}
-                      className="h-4 w-4 text-green-600"
-                    />
-                    <span className="ml-3 text-gray-700 capitalize">
-                      {duration}
-                      {duration === 'quarterly' && ' (10% off)'}
-                      {duration === 'yearly' && ' (16.7% off)'}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-gray-50 p-4 rounded-lg mb-6">
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-600">Base Price:</span>
-                <span>₦{Math.round(selectedCourse.basePrice * getDurationMultiplier()).toLocaleString()}</span>
-              </div>
-              <div className="flex justify-between mb-2">
-                <span className="text-gray-600">VAT (7.5%):</span>
-                <span>₦{Math.round(selectedCourse.basePrice * getDurationMultiplier() * VAT_RATE).toLocaleString()}</span>
-              </div>
-              <div className="border-t pt-2 mt-2">
-                <div className="flex justify-between font-bold text-lg">
-                  <span>Total:</span>
-                  <span>₦{Math.round(calculateTotalPrice(selectedCourse.basePrice) * getDurationMultiplier()).toLocaleString()}</span>
-                </div>
-              </div>
-            </div>
-
-            <button className="w-full bg-gradient-to-r from-green-600 to-teal-600 text-white py-3 rounded-lg font-medium hover:from-green-700 hover:to-teal-700 transition-all">
-              Proceed to Checkout
-            </button>
-
-            <p className="text-center text-sm text-gray-500 mt-4">
-              Secure payment via Paystack • 7-day money-back guarantee
-            </p>
-          </div>
-        </div>
-      )}
-
       {/* Review Modal */}
       {isReviewModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">Write a Review</h2>
-              <button
+              <button type="button" alria-label="Close"
                 onClick={() => setIsReviewModalOpen(false)}
                 className="text-gray-400 hover:text-gray-600"
               >
@@ -381,7 +292,7 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
               <label className="block text-sm font-medium text-gray-700 mb-2">Your Rating</label>
               <div className="flex">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <button
+                  <button type="button" alria-label={`Rate ${star} stars`}
                     key={star}
                     onClick={() => setNewReview({...newReview, rating: star})}
                     className="text-2xl"
@@ -423,12 +334,9 @@ const CoursesPage: React.FC<{ currentLanguage: string }> = ({ currentLanguage })
         </div>
       )}
 
-      {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <p>&copy; {new Date().getFullYear()} SmartEd Africa. All rights reserved.</p>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p>&copy; {new Date().getFullYear()} SmartEd Africa. All rights reserved.</p>
         </div>
       </footer>
     </div>

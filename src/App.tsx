@@ -2,9 +2,15 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Navbar from './components/navigation/Navbar';
 import LandingPage from './pages/LandingPage';
 import CoursesPage from './pages/CoursesPage';
+import SubscriptionPage from './pages/SubscriptionPage';
+import CheckoutPage from './pages/CheckoutPage';
+import PaymentSuccessPage from './pages/PaymentSuccessPage';
+import StudentDashboard from './pages/StudentDashboard';
 import AIChat from './components/chat/AIChat';
 import AuthModal from './components/auth/AuthModal';
+import ReviewModal from './components/reviews/ReviewModal';
 import { translations as _translations } from './utils/translations';
+import { Course } from './pages/CoursesPage';
 
 // -------------------- Types --------------------
 interface UserSubscription {
@@ -31,8 +37,14 @@ const App: React.FC = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authType, setAuthType] = useState<'login' | 'signup'>('login');
   const [user, setUser] = useState<User | null>(null);
-  const [currentPage, setCurrentPage] = useState<'landing' | 'courses' | 'dashboard'>('landing');
+  const [currentPage, setCurrentPage] = useState<
+    'landing' | 'courses' | 'subscription' | 'checkout' | 'payment-success' | 'student-dashboard'
+  >('landing');
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
+  const [paymentMethod, setPaymentMethod] = useState('');
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewCourse, setReviewCourse] = useState<{ id: string; title: string } | null>(null);
 
   // -------------------- Auth Check --------------------
   const checkAuthStatus = useCallback(async () => {
@@ -43,7 +55,6 @@ const App: React.FC = () => {
     }
 
     try {
-      // Mock user data (replace with real API call)
       const mockUser: User = {
         id: 'user_123',
         email: 'student@example.com',
@@ -57,7 +68,7 @@ const App: React.FC = () => {
       };
 
       setUser(mockUser);
-      setCurrentPage(mockUser.subscription.status === 'active' ? 'dashboard' : 'courses');
+      setCurrentPage(mockUser.subscription.status === 'active' ? 'student-dashboard' : 'courses');
     } catch (error) {
       console.error('Auth check failed:', error);
       localStorage.removeItem('smarted_auth_token');
@@ -106,7 +117,7 @@ const App: React.FC = () => {
   const handleAuthSuccess = (userData: User) => {
     localStorage.setItem('smarted_auth_token', 'mock_jwt_token');
     setUser(userData);
-    setCurrentPage(userData.subscription.status === 'active' ? 'dashboard' : 'courses');
+    setCurrentPage(userData.subscription.status === 'active' ? 'student-dashboard' : 'courses');
     setIsAuthModalOpen(false);
   };
 
@@ -116,21 +127,14 @@ const App: React.FC = () => {
     setCurrentPage('landing');
   };
 
-  const handleCourseSubscribe = (courseId: string, plan: 'premium' | 'pro') => {
-    if (!user) return;
+  const handleCourseSubscribe = (course: Course) => {
+    setSelectedCourse(course);
+    setCurrentPage('subscription');
+  };
 
-    const updatedUser: User = {
-      ...user,
-      subscription: {
-        plan,
-        status: 'active',
-        courseId,
-        expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-      },
-    };
-
-    setUser(updatedUser);
-    setCurrentPage('dashboard');
+  const handleWriteReview = (courseId: string, courseTitle: string) => {
+    setReviewCourse({ id: courseId, title: courseTitle });
+    setIsReviewModalOpen(true);
   };
 
   // -------------------- Loading State --------------------
@@ -146,69 +150,6 @@ const App: React.FC = () => {
     );
   }
 
-  // -------------------- Dashboard --------------------
-  const Dashboard: React.FC = () => {
-    if (!user) return null;
-    const isPremium = user.subscription.plan !== 'free';
-
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100 pt-16">
-        <div className="max-w-7xl mx-auto px-4 py-12">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back, {user.name}!</h1>
-            <p className="text-gray-600">
-              {isPremium
-                ? 'You have full access to all premium features.'
-                : "You're on the free plan. Upgrade for full access."}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {[
-              { title: 'Offline Lessons', free: 'Limited offline access (upgrade to unlock)', premium: 'Download and access all lessons offline' },
-              { title: 'AI Tutor', free: 'Basic AI support only', premium: '24/7 AI-powered doubt solving' },
-              { title: 'Exam Analytics', free: 'Basic analytics only', premium: 'Detailed performance insights' },
-            ].map((feature) => (
-              <div
-                key={feature.title}
-                className={`bg-white p-6 rounded-lg shadow transition ${
-                  isPremium ? 'border-green-200' : 'border-gray-200 opacity-75'
-                }`}
-              >
-                <h3 className="font-semibold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600 text-sm">{isPremium ? feature.premium : feature.free}</p>
-              </div>
-            ))}
-          </div>
-
-          {!isPremium && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center mb-8">
-              <h3 className="font-bold text-yellow-800 mb-2">Upgrade to Premium</h3>
-              <p className="text-yellow-700 mb-4">
-                Get full offline access, AI tutoring, and exam analytics for just ₦10,000/year!
-              </p>
-              <button
-                onClick={() => setCurrentPage('courses')}
-                className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-2 rounded-lg font-medium hover:from-green-700 hover:to-teal-700"
-              >
-                Upgrade Now
-              </button>
-            </div>
-          )}
-
-          <div className="text-center">
-            <button
-              onClick={handleLogout}
-              className="text-red-600 hover:text-red-700 font-medium"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   // -------------------- Main Render --------------------
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100">
@@ -223,7 +164,6 @@ const App: React.FC = () => {
         onNavigate={setCurrentPage}
       />
 
-      {/* Floating AI Chat Button */}
       <button
         onClick={() => setIsChatOpen(true)}
         className="fixed bottom-4 right-4 z-40 bg-gradient-to-r from-green-600 to-teal-600 text-white p-4 rounded-full shadow-lg hover:from-green-700 hover:to-teal-700 transition-all"
@@ -251,6 +191,13 @@ const App: React.FC = () => {
         authType={authType}
         currentLanguage={currentLanguage}
         onSuccess={handleAuthSuccess}
+      />
+
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        courseId={reviewCourse?.id || ''}
+        courseTitle={reviewCourse?.title || ''}
       />
 
       {showAutoTranslatePopup && (
@@ -315,10 +262,52 @@ const App: React.FC = () => {
         <CoursesPage
           currentLanguage={currentLanguage}
           onSubscribe={handleCourseSubscribe}
+          onWriteReview={handleWriteReview}
         />
       )}
 
-      {currentPage === 'dashboard' && <Dashboard />}
+      {currentPage === 'subscription' && selectedCourse && (
+        <SubscriptionPage
+          course={selectedCourse}
+          onBack={() => setCurrentPage('courses')}
+          onProceedToCheckout={() => setCurrentPage('checkout')}
+        />
+      )}
+
+      {currentPage === 'checkout' && selectedCourse && (
+        <CheckoutPage
+          course={selectedCourse}
+          onBack={() => setCurrentPage('subscription')}
+          onComplete={(method) => {
+            setPaymentMethod(method);
+            setCurrentPage('payment-success');
+          }}
+        />
+      )}
+
+      {currentPage === 'payment-success' && selectedCourse && (
+        <PaymentSuccessPage
+          courseTitle={selectedCourse.title}
+          paymentMethod={paymentMethod}
+          onContinue={() => {
+            if (user) {
+              const updatedUser: User = {
+                ...user,
+                subscription: {
+                  plan: 'premium',
+                  status: 'active',
+                  courseId: selectedCourse.id,
+                  expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+                },
+              };
+              setUser(updatedUser);
+            }
+            setCurrentPage('student-dashboard');
+          }}
+        />
+      )}
+
+      {currentPage === 'student-dashboard' && user && <StudentDashboard user={user} />}
     </div>
   );
 };
