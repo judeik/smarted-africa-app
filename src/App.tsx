@@ -38,13 +38,28 @@ const App: React.FC = () => {
   const [authType, setAuthType] = useState<'login' | 'signup'>('login');
   const [user, setUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState<
-    'landing' | 'courses' | 'subscription' | 'checkout' | 'payment-success' | 'student-dashboard'
+    'landing' | 'courses' | 'subscription' | 'checkout' | 'payment-success' | 'StudentDashboard'
   >('landing');
   const [isLoading, setIsLoading] = useState(true);
+  const [dashboardLoading, setDashboardLoading] = useState(false);
+  const [dashboardReady, setDashboardReady] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [reviewCourse, setReviewCourse] = useState<{ id: string; title: string } | null>(null);
+
+  // A safe demo user used when real user is not present (prevents blank screen)
+  const demoUser: User = {
+    id: 'demo_user',
+    email: 'demo@student.africa',
+    name: 'Demo Student',
+    subscription: {
+      plan: 'free',
+      status: 'active',
+      courseId: selectedCourse?.id || 'demo-course',
+      expiresAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  };
 
   // -------------------- Auth Check --------------------
   const checkAuthStatus = useCallback(async () => {
@@ -68,7 +83,14 @@ const App: React.FC = () => {
       };
 
       setUser(mockUser);
-      setCurrentPage(mockUser.subscription.status === 'active' ? 'student-dashboard' : 'courses');
+      setDashboardLoading(true);
+
+      // Delay to show welcome animation then load dashboard
+      setTimeout(() => {
+        setDashboardLoading(false);
+        setDashboardReady(true);
+        setCurrentPage('StudentDashboard');
+      }, 2500);
     } catch (error) {
       console.error('Auth check failed:', error);
       localStorage.removeItem('smarted_auth_token');
@@ -117,7 +139,12 @@ const App: React.FC = () => {
   const handleAuthSuccess = (userData: User) => {
     localStorage.setItem('smarted_auth_token', 'mock_jwt_token');
     setUser(userData);
-    setCurrentPage(userData.subscription.status === 'active' ? 'student-dashboard' : 'courses');
+    setDashboardLoading(true);
+    setTimeout(() => {
+      setDashboardLoading(false);
+      setDashboardReady(true);
+      setCurrentPage('StudentDashboard');
+    }, 2500);
     setIsAuthModalOpen(false);
   };
 
@@ -125,6 +152,7 @@ const App: React.FC = () => {
     localStorage.removeItem('smarted_auth_token');
     setUser(null);
     setCurrentPage('landing');
+    setDashboardReady(false);
   };
 
   const handleCourseSubscribe = (course: Course) => {
@@ -137,14 +165,18 @@ const App: React.FC = () => {
     setIsReviewModalOpen(true);
   };
 
-  // -------------------- Loading State --------------------
-  if (isLoading) {
+  // -------------------- Loading / Welcome Transition --------------------
+  if (isLoading || dashboardLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100 flex items-center justify-center">
-        <div className="text-center">
+      <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100 flex items-center justify-center transition-all duration-700">
+        <div className="text-center animate-fade-in">
           <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <h2 className="text-2xl font-bold text-gray-900">Loading SmartEd Africa...</h2>
-          <p className="text-gray-600">Preparing your AI-powered learning experience</p>
+          <h2 className="text-2xl font-bold text-gray-900">
+            {dashboardLoading ? 'Preparing your Dashboard...' : 'Loading SmartEd Africa...'}
+          </h2>
+          <p className="text-gray-600 mt-2">
+            {dashboardLoading ? 'Welcome to your Dashboard 🎓' : 'Preparing your AI-powered learning experience'}
+          </p>
         </div>
       </div>
     );
@@ -152,7 +184,7 @@ const App: React.FC = () => {
 
   // -------------------- Main Render --------------------
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100 transition-all duration-700">
       <Navbar
         currentLanguage={currentLanguage}
         onLanguageChange={setCurrentLanguage}
@@ -179,11 +211,7 @@ const App: React.FC = () => {
         </svg>
       </button>
 
-      <AIChat
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-        currentLanguage={currentLanguage}
-      />
+      <AIChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} currentLanguage={currentLanguage} />
 
       <AuthModal
         isOpen={isAuthModalOpen}
@@ -200,6 +228,7 @@ const App: React.FC = () => {
         courseTitle={reviewCourse?.title || ''}
       />
 
+      {/* -------------------- Auto Translate Popup -------------------- */}
       {showAutoTranslatePopup && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-md w-full">
@@ -250,7 +279,8 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {currentPage === 'landing' && (
+      {/* -------------------- Page Rendering -------------------- */}
+      {!dashboardReady && currentPage === 'landing' && (
         <LandingPage
           currentLanguage={currentLanguage}
           onAuthClick={handleAuthClick}
@@ -258,7 +288,7 @@ const App: React.FC = () => {
         />
       )}
 
-      {currentPage === 'courses' && (
+      {!dashboardReady && currentPage === 'courses' && (
         <CoursesPage
           currentLanguage={currentLanguage}
           onSubscribe={handleCourseSubscribe}
@@ -266,7 +296,7 @@ const App: React.FC = () => {
         />
       )}
 
-      {currentPage === 'subscription' && selectedCourse && (
+      {!dashboardReady && currentPage === 'subscription' && selectedCourse && (
         <SubscriptionPage
           course={selectedCourse}
           onBack={() => setCurrentPage('courses')}
@@ -274,7 +304,7 @@ const App: React.FC = () => {
         />
       )}
 
-      {currentPage === 'checkout' && selectedCourse && (
+      {!dashboardReady && currentPage === 'checkout' && selectedCourse && (
         <CheckoutPage
           course={selectedCourse}
           onBack={() => setCurrentPage('subscription')}
@@ -285,7 +315,7 @@ const App: React.FC = () => {
         />
       )}
 
-      {currentPage === 'payment-success' && selectedCourse && (
+      {!dashboardReady && currentPage === 'payment-success' && selectedCourse && (
         <PaymentSuccessPage
           courseTitle={selectedCourse.title}
           paymentMethod={paymentMethod}
@@ -302,12 +332,19 @@ const App: React.FC = () => {
               };
               setUser(updatedUser);
             }
-            setCurrentPage('student-dashboard');
+            setDashboardLoading(true);
+            setTimeout(() => {
+              setDashboardLoading(false);
+              setDashboardReady(true);
+              setCurrentPage('StudentDashboard');
+            }, 2500);
           }}
         />
       )}
 
-      {currentPage === 'student-dashboard' && user && <StudentDashboard user={user} />}
+      {dashboardReady && currentPage === 'StudentDashboard' && (
+        <StudentDashboard user={user ?? demoUser} />
+      )}
     </div>
   );
 };

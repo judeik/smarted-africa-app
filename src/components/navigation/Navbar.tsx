@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  GraduationCap,
-  Menu,
-  X
-} from 'lucide-react';
+import { GraduationCap, Menu, X } from 'lucide-react';
 import LanguageSelector from './LanguageSelector';
 import { translations } from '../../utils/translations';
 
@@ -21,111 +17,98 @@ const Navbar = ({
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNavClick = (target) => {
+  const handleNavClick = (target: string) => {
     // Handle section anchors (scroll to section on landing page)
     if (['features', 'audience', 'testimonials', 'team', 'contact'].includes(target)) {
       if (currentPage !== 'landing') {
         onNavigate('landing');
         setTimeout(() => {
           const element = document.getElementById(target);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
+          if (element) element.scrollIntoView({ behavior: 'smooth' });
         }, 100);
       } else {
         const element = document.getElementById(target);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (element) element.scrollIntoView({ behavior: 'smooth' });
       }
       setIsMenuOpen(false);
     }
-    // Handle page navigation
-    else if (['landing', 'courses', 'dashboard'].includes(target)) {
+
+    // ✅ Fix: handle both dashboard and StudentDashboard navigation
+    else if (target === 'dashboard' || target === 'StudentDashboard') {
+      onNavigate('StudentDashboard');
+      setIsMenuOpen(false);
+    }
+
+    // Handle normal pages
+    else if (['landing', 'courses'].includes(target)) {
       onNavigate(target);
       setIsMenuOpen(false);
     }
   };
 
-  // Safe translation lookup for JavaScript
-  const getTranslation = (key, fallback) => {
-    return translations[currentLanguage] && translations[currentLanguage][key] 
-      ? translations[currentLanguage][key] 
-      : fallback;
-  };
+  const getTranslation = (key, fallback) =>
+    translations[currentLanguage]?.[key] ?? fallback;
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white shadow-md py-2' : 'bg-white/90 backdrop-blur-sm py-4'
-    }`}>
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-white shadow-md py-2' : 'bg-white/90 backdrop-blur-sm py-4'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
+          {/* Logo */}
           <div className="flex items-center">
-            <div className="flex-shrink-0 flex items-center">
-              <GraduationCap className="h-8 w-8 text-green-600" />
-              <span 
-                className="ml-2 text-xl font-bold text-green-600 cursor-pointer"
-                onClick={() => handleNavClick('landing')}
-              >
-                SmartEd Africa
-              </span>
-            </div>
+            <GraduationCap className="h-8 w-8 text-green-600" />
+            <span
+              className="ml-2 text-xl font-bold text-green-600 cursor-pointer"
+              onClick={() => handleNavClick('landing')}
+            >
+              SmartEd Africa
+            </span>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-6">
-            <button 
-              onClick={() => handleNavClick('features')}
-              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
-            >
+            <button onClick={() => handleNavClick('features')} className="text-gray-600 hover:text-green-600 font-medium transition-colors">
               {getTranslation('features', 'Features')}
             </button>
-            <button 
-              onClick={() => handleNavClick('audience')}
-              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
-            >
+            <button onClick={() => handleNavClick('audience')} className="text-gray-600 hover:text-green-600 font-medium transition-colors">
               {getTranslation('solutions', 'Solutions')}
             </button>
-            <button 
-              onClick={() => handleNavClick('testimonials')}
-              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
-            >
+            <button onClick={() => handleNavClick('testimonials')} className="text-gray-600 hover:text-green-600 font-medium transition-colors">
               {getTranslation('successStories', 'Success Stories')}
             </button>
-            <button 
-              onClick={() => handleNavClick('team')}
-              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
-            >
+            <button onClick={() => handleNavClick('team')} className="text-gray-600 hover:text-green-600 font-medium transition-colors">
               {getTranslation('ourTeam', 'Our Team')}
             </button>
-            <button 
-              onClick={() => handleNavClick('courses')}
-              className="text-gray-600 hover:text-green-600 font-medium"
-            >
+            <button onClick={() => handleNavClick('courses')} className="text-gray-600 hover:text-green-600 font-medium">
               Courses
             </button>
-            <button 
-              onClick={() => handleNavClick('contact')}
-              className="text-gray-600 hover:text-green-600 font-medium transition-colors"
-            >
+            <button onClick={() => handleNavClick('contact')} className="text-gray-600 hover:text-green-600 font-medium transition-colors">
               {getTranslation('contact', 'Contact')}
             </button>
+
             <LanguageSelector
               currentLanguage={currentLanguage}
               onLanguageChange={onLanguageChange}
               showAutoDetect={showAutoDetect}
             />
-            
+
             {user ? (
               <div className="flex items-center space-x-4">
                 <span className="text-gray-700 text-sm">Hi, {user.name.split(' ')[0]}</span>
+                <button
+                  onClick={() => handleNavClick('StudentDashboard')}
+                  className="text-green-600 font-medium hover:underline transition-colors"
+                >
+                  Dashboard
+                </button>
                 <button
                   onClick={onLogout}
                   className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full font-medium hover:from-red-600 hover:to-orange-600 transition-all text-sm"
@@ -143,7 +126,7 @@ const Navbar = ({
             )}
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu */}
           <div className="md:hidden flex items-center space-x-4">
             <LanguageSelector
               currentLanguage={currentLanguage}
@@ -159,49 +142,37 @@ const Navbar = ({
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile menu content */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
             <div className="flex flex-col space-y-4">
-              <button 
-                onClick={() => handleNavClick('features')}
-                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
-              >
+              <button onClick={() => handleNavClick('features')} className="text-gray-600 hover:text-green-600 font-medium py-2 text-left">
                 {getTranslation('features', 'Features')}
               </button>
-              <button 
-                onClick={() => handleNavClick('audience')}
-                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
-              >
+              <button onClick={() => handleNavClick('audience')} className="text-gray-600 hover:text-green-600 font-medium py-2 text-left">
                 {getTranslation('solutions', 'Solutions')}
               </button>
-              <button 
-                onClick={() => handleNavClick('testimonials')}
-                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
-              >
+              <button onClick={() => handleNavClick('testimonials')} className="text-gray-600 hover:text-green-600 font-medium py-2 text-left">
                 {getTranslation('successStories', 'Success Stories')}
               </button>
-              <button 
-                onClick={() => handleNavClick('team')}
-                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
-              >
+              <button onClick={() => handleNavClick('team')} className="text-gray-600 hover:text-green-600 font-medium py-2 text-left">
                 {getTranslation('ourTeam', 'Our Team')}
               </button>
-              <button 
-                onClick={() => handleNavClick('courses')}
-                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
-              >
+              <button onClick={() => handleNavClick('courses')} className="text-gray-600 hover:text-green-600 font-medium py-2 text-left">
                 Courses
               </button>
-              <button 
-                onClick={() => handleNavClick('contact')}
-                className="text-gray-600 hover:text-green-600 font-medium py-2 text-left"
-              >
+              <button onClick={() => handleNavClick('contact')} className="text-gray-600 hover:text-green-600 font-medium py-2 text-left">
                 {getTranslation('contact', 'Contact')}
               </button>
-              
+
               {user ? (
-                <div className="pt-4">
+                <div className="pt-4 space-y-3">
+                  <button
+                    onClick={() => handleNavClick('StudentDashboard')}
+                    className="w-full border-2 border-green-600 text-green-600 px-4 py-2 rounded-full font-medium hover:bg-green-50 transition-colors"
+                  >
+                    Dashboard
+                  </button>
                   <button
                     onClick={onLogout}
                     className="w-full bg-gradient-to-r from-red-500 to-orange-500 text-white px-4 py-2 rounded-full font-medium hover:from-red-600 hover:to-orange-600 transition-all"

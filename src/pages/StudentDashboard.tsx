@@ -49,11 +49,15 @@ interface Notification {
   type: 'course' | 'assignment' | 'system';
 }
 
+// Rename prop interface to avoid name collision with component
 interface StudentDashboardProps {
-  user: { name: string; email: string };
+  user?: { name: string; email: string };
 }
 
-const StudentDashboard: React.FC<{ user: { name: string; email: string } }> = ({ user }) => {
+const StudentDashboard: React.FC<StudentDashboardProps> = ({ user }) => {
+  // Safe fallback user to prevent crashes / blank screen
+  const safeUser = user ?? { name: 'Guest User', email: 'guest@example.com' };
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -264,7 +268,7 @@ const StudentDashboard: React.FC<{ user: { name: string; email: string } }> = ({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100 pt-24 pb-12">
       {/* Mobile header */}
       <div className="md:hidden bg-white shadow-sm px-4 py-4 fixed top-0 w-full z-40">
         <div className="flex justify-between items-center">
@@ -290,7 +294,7 @@ const StudentDashboard: React.FC<{ user: { name: string; email: string } }> = ({
               )}
             </button>
             <div className="w-8 h-8 bg-gradient-to-r from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-              {user.name.split(' ').map(n => n[0]).join('')}
+              {safeUser.name.split(' ').map(n => n[0]).join('')}
             </div>
           </div>
         </div>
@@ -345,10 +349,10 @@ const StudentDashboard: React.FC<{ user: { name: string; email: string } }> = ({
           <div className="absolute bottom-0 w-full p-4 border-t border-gray-200">
             <div className="flex items-center">
               <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold">
-                {user.name.split(' ').map(n => n[0]).join('')}
+                {safeUser.name.split(' ').map(n => n[0]).join('')}
               </div>
               <div className="ml-3">
-                <p className="font-medium text-gray-900">{user.name}</p>
+                <p className="font-medium text-gray-900">{safeUser.name}</p>
                 <p className="text-sm text-gray-600">Student</p>
               </div>
             </div>
@@ -361,7 +365,7 @@ const StudentDashboard: React.FC<{ user: { name: string; email: string } }> = ({
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Welcome back, {user.name.split(' ')[0]}!</h1>
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Welcome back, {safeUser.name.split(' ')[0]}!</h1>
                 <p className="text-gray-600 mt-1">Continue your learning journey</p>
               </div>
               <div className="mt-4 md:mt-0 flex items-center space-x-4">
@@ -377,7 +381,7 @@ const StudentDashboard: React.FC<{ user: { name: string; email: string } }> = ({
                   )}
                 </button>
                 <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-teal-500 rounded-full flex items-center justify-center text-white font-bold">
-                  {user.name.split(' ').map(n => n[0]).join('')}
+                  {safeUser.name.split(' ').map(n => n[0]).join('')}
                 </div>
               </div>
             </div>
@@ -508,7 +512,7 @@ const StudentDashboard: React.FC<{ user: { name: string; email: string } }> = ({
             <div className="p-6 border-b border-gray-200">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold text-gray-900">Notifications</h2>
-                <button
+                <button type="button"
                   onClick={() => setShowNotifications(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >
