@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   BookOpen,
-  Calendar,
+  // Calendar,
   Trophy,
   TrendingUp,
   MessageSquare,
@@ -10,7 +10,7 @@ import {
   Menu,
   X,
   Star,
-  CheckCircle,
+  // CheckCircle,
   Clock,
   Download,
   Play,
@@ -268,12 +268,12 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ user }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100 pt-24 pb-12">
+  <div className="min-h-screen bg-gradient-to-br from-teal-50 to-gray-100 pt-24 md:pt-24 pb-16">
       {/* Mobile header */}
       <div className="md:hidden bg-white shadow-sm px-4 py-4 fixed top-0 w-full z-40">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <button
+            <button type="button" arial-label="Open sidebar"
               onClick={() => setSidebarOpen(true)}
               className="p-2 -ml-2 rounded-lg hover:bg-gray-100"
             >
@@ -512,7 +512,7 @@ const StudentDashboard: React.FC<StudentDashboardProps> = ({ user }) => {
             <div className="p-6 border-b border-gray-200">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl font-bold text-gray-900">Notifications</h2>
-                <button type="button"
+                <button type="button" arial-label="Close notifications"
                   onClick={() => setShowNotifications(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >

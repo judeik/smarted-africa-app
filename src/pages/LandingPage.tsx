@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
-import { 
-  Users, 
-  Globe, 
-  BookOpen, 
-  Shield, 
-  Smartphone, 
-  Download, 
-  Star, 
-  MessageSquare, 
-  Mail, 
-  MapPin, 
-  Phone, 
+import {
+  Users,
+  Globe,
+  BookOpen,
+  Shield,
+  Smartphone,
+  Download,
+  // Star,
+  MessageSquare,
+  Mail,
+  MapPin,
+  Phone,
   ChevronRight,
   CheckCircle,
   Award,
-  TrendingUp,
+  // TrendingUp,
   Heart,
   Building,
   GraduationCap,
@@ -290,7 +290,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ currentLanguage, onAuthClick 
             {translations[currentLanguage as keyof typeof translations]?.heroSubtitle || "SmartEd delivers world-class, localized educational content to students, artisans, and institutions across Africa - completely offline and accessible on any device."}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
+            <button
               onClick={() => onAuthClick('signup')}
               className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-green-700 hover:to-teal-700 transition-all shadow-lg hover:shadow-xl"
             >
@@ -342,7 +342,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ currentLanguage, onAuthClick 
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whyChooseFeatures.map((feature, index) => (
-              <FeatureCard 
+              <FeatureCard
                 key={index}
                 icon={feature.icon}
                 title={feature.title}
@@ -442,14 +442,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ currentLanguage, onAuthClick 
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
             {studentTestimonials.map((testimonial, index) => (
-              <Testimonial 
-                key={index} 
-                {...testimonial} 
+              <Testimonial
+                key={index}
+                {...testimonial}
                 isStudent={true}
               />
             ))}
           </div>
-          
+
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               {translations[currentLanguage as keyof typeof translations]?.partnerTestimonials || "Partner & Institutional Testimonials"}

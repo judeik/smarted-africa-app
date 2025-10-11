@@ -1,71 +1,16 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Primary Meta Tags -->
-    <title>SmartEd Africa | AI-Powered, Offline & Localized Learning for African Students</title>
-    <meta name="title" content="SmartEd Africa | AI-Powered, Offline & Localized Learning for African Students" />
-
-    <meta name="description" content="SmartEd Africa is an inventive e-learning platform that aims to provide the users an easy, cheap and suitable education that fits the academic needs of each African student. It uses artificial intelligence to guide the learner, provides offline accessibility and offers localized learning in different languages such as English, Igbo, Hausa and Yoruba. Consequently, SmartEd Africa enables students to get a solid preparation for WAEC, JAMB and other national exams as well as making study time and study place flexible." />
-
-    <meta
-      name="keywords"
-      content="SmartEd Africa, AI education, offline learning, localized learning, WAEC, JAMB, e-learning Africa, edtech Nigeria, AI tutor"
-    />
-    <meta name="author" content="Ojobor Jude Ikechukwu Team Lead & Product Manager" />
-    <meta name="robots" content="index, follow" />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://smarted-africa-app.vercel.app/" />
-    <meta property="og:title" content="SmartEd Africa | AI-Powered, Offline & Localized Learning for African Students" />
-    <meta property="og:description" content="SmartEd Africa is an inventive e-learning platform that aims to provide the users an easy, cheap and suitable education that fits the academic needs of each African student. It uses artificial intelligence to guide the learner, provides offline accessibility and offers localized learning in different languages such as English, Igbo, Hausa and Yoruba. Consequently, SmartEd Africa enables students to get a solid preparation for WAEC, JAMB and other national exams as well as making study time and study place flexible." />
-    <meta property="og:image" content="https://smarted-africa-app.vercel.app/screenshots/smarted-africa-logo.png" />
-
-    <!-- X (Twitter) -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://smarted-africa-app.vercel.app/" />
-    <meta property="twitter:title" content="SmartEd Africa | AI-Powered, Offline & Localized Learning for African Students" />
-    <meta property="twitter:description" content="SmartEd Africa is an inventive e-learning platform that aims to provide the users an easy, cheap and suitable education that fits the academic needs of each African student. It uses artificial intelligence to guide the learner, provides offline accessibility and offers localized learning in different languages such as English, Igbo, Hausa and Yoruba. Consequently, SmartEd Africa enables students to get a solid preparation for WAEC, JAMB and other national exams as well as making study time and study place flexible." />
-    <meta property="twitter:image" content="https://smarted-africa-app.vercel.app/screenshots/smarted-africa-logo.png" />
-
-    <!-- Meta Tags Generated with https://metatags.io -->
-
-    <!-- Favicon & App Icons -->
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#00A859" />
-
-    <!-- Optional: Progressive Web App Meta -->
-    <meta name="application-name" content="SmartEd Africa" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="SmartEd Africa" />
-
-    <!-- Canonical Link -->
-    <link rel="canonical" href="https://smarted-africa-app.vercel.app/" />
-
-    <!-- Schema for Organization -->
-    <script type="application/ld+json">
-      {
+{
         "@context": "https://schema.org",
         "@type": "EducationalOrganization",
         "name": "SmartEd Africa",
         "alternateName": "SmartEd",
         "slogan": "Empowering African Students with AI-powered Learning",
         "url": "https://smarted-africa-app.vercel.app/",
-        "logo": "https://smarted-africa-app.vercel.app/logo192.jpg",
+        "logo": "https://smarted-africa-app.vercel.app/logo192.png",
         "image": [
-        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-landing-page.jpg",
-        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-student-dashboard.jpg",
-        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-ai-tutor.jpg",
-        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-offline-lessons.jpg"
+        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-landing-page.png",
+        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-student-dashboard.png",
+        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-ai-tutor.png",
+        "https://smarted-africa-app.vercel.app/screenshots/smarted-africa-offline-lessons.png"
         ],
         "description": "SmartEd Africa is an innovative e-learning platform providing affordable, accessible, and quality education for African students preparing for WAEC, JAMB, and other examinations.",
         "sameAs": [
@@ -224,10 +169,3 @@
           }
         ]
       }
-    </script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>

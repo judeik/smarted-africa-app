@@ -1,0 +1,51 @@
+I have a Node.js/Express backend codebase that I want to refactor into a modern, professional, ready-to-deploy backend. Refactor the entire uploaded codebase with the following requirements:
+
+1. Folder Structure & Organization
+   - Use `/routes`, `/controllers`, `/models`, `/middleware`, `/config`, `/utils`
+   - Keep `server.js` as entry point
+   - Versioned API: `/api/v1/...` for all routes
+
+2. Authentication
+   - JWT-based authentication with access & refresh tokens
+   - Include registration, login, logout, email confirmation, resend confirmation, forgot password, reset password
+   - All routes return JSON responses (`success`, `message`, `data`)
+   - Password hashing with bcrypt
+   - Implement **Google reCAPTCHA** verification in registration, login, forgot password, reset password, and resend confirmation routes
+     - Use a middleware file (`middleware/recaptcha.js`)
+     - Accept `recaptchaToken` in request body
+     - Verify token with `process.env.RECAPTCHA_SECRET_KEY` and Google API
+     - Fail request if verification fails
+
+3. Validation & Security
+   - Input validation for email, password, and required fields
+   - Rate limiting for auth endpoints
+   - Centralized error handling middleware
+
+4. Database
+   - MongoDB connection with retry logic and graceful shutdown
+   - Centralized configuration in `.env`
+
+5. Logging & Environment
+   - Use `dotenv` for env variables
+   - Optional morgan logger in development
+   - Clear console logs for DB and server
+
+6. Additional Features
+   - Health check endpoint `/api/v1/health`
+   - Postman-ready JSON responses
+   - Configurable JWT secret & expiry in `.env`
+
+7. Code Quality
+   - Modern ES6+ syntax
+   - Proper comments explaining routes and controllers
+   - Clean, professional JSON responses
+
+8. Include a proper `.gitignore` file that ignores:
+   - `node_modules/`
+   - `.env`
+   - `logs/`
+   - `*.log`
+   - `dist/` or `build/` if compiled
+   - Any other sensitive or generated files
+
+**Task:** Refactor the entire codebase with these requirements, integrating Google reCAPTCHA as described, ensuring it is production-ready, modern, and professional. Provide all files ready to deploy locally with `npm install` and `npm start`. Include example `.env` keys for JWT and reCAPTCHA.
